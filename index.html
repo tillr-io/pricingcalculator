@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" >
+  	<head>
+		<title>tillr Value Calculator</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="./styles/vendor/bootstrap.min.css" />
+		<link rel="stylesheet" href="./styles/vendor/rzslider.css" />
+		<link rel="stylesheet" href="./styles/default.css" />
+		<style type="text/css">
+			/**
+				* Hide when Angular is not yet loaded and initialized
+				*/
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body ng-app="pc" ng-cloak>
+		
+		<div class="container">
+			
+			<div class="jumbotron">
+				
+				<div class="row">
+					<div class="col-xs-2">
+						<div class="centered">
+							<img src="./images/logo.png" class="img-responsive" />
+						</div>
+					</div>
+					<div class="col-xs-10">
+						<div class="page-header">
+							<h1>tillr Pricing Calculator</h1>
+							<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit leo vel odio facilisis ultricies. Pellentesque auctor. </h3>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12">
+					<pricing-calculator></pricing-calculator>
+				</div>
+			</div>
+			
+		</div>
+	
+		<script src="./scripts/vendor/angular.min.js"></script>
+		<script src="./scripts/vendor/ngcurrency.js"></script>
+		<script src="./scripts/vendor/rzslider.min.js"></script>
+		<script src="./scripts/app.js"></script>
+
+		<script type="text/ng-template" id="calculator.html">
+			<ng-form name="calculator">
+				
+				<!-- Number of Users / Package Headers -->
+				<div class="option headings no-border hidden-xs">
+					<div class="row">
+						<div class="col-sm-3 col-sm-offset-6">
+							<label for="number_of_users">Number of Users</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<label for="package">Package</label>
+						</div>
+					</div>
+				</div>
+				<!-- /Number of Users / Package Headers -->
+
+				<!-- Number of Users -->
+				<div class="option no-border">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="number_of_users">Number of Users</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input ng-click="calc.onTextClick($event)" id="number_of_users" class="form-control" type="text" name="number_of_users" ng-model="calc.number_of_users" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="package">Package</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input ng-click="calc.onTextClick($event)" id="package" class="form-control" type="text" name="package" ng-model="calc.package" ng-change="calc.update()" ng-currency min="0" fraction="0" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /Number of users -->
+				
+				<!-- Rate Card Monthly Cost / Rate Card Yearly Cost Headers -->
+				<div class="option headings no-border hidden-xs">
+					<div class="row">
+						<div class="col-sm-3 col-sm-offset-6">
+							<label for="ratecard_monthly">Rate Card Monthly Cost</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<label for="ratecard_yearly">Rate Card Yearly Cost</label>
+						</div>
+					</div>
+				</div>
+				<!-- /Number of Users / Package Headers -->
+				
+				<!-- Rate Card Monthly Cost -->
+				<div class="option no-border">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="ratecard_monthly">Rate Card Monthly Cost</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="ratecard_monthly" class="form-control" type="text" name="ratecard_monthly" ng-model="calc.ratecard_monthly" ng-change="calc.update()" ng-currency min="0" fraction="0" currency-symbol="£">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="ratecard_yearly">Rate Card Yearly Cost</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="ratecard_yearly" class="form-control" type="text" name="ratecard_yearly" ng-model="calc.ratecard_yearly" ng-change="calc.update()" ng-currency min="0" fraction="0" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /Number of users -->
+				
+				<!-- Saving Per Month / Saving Per Year Headers -->
+				<div class="option headings no-border hidden-xs">
+					<div class="row">
+						<div class="col-sm-3 col-sm-offset-6">
+							<label for="twentyfourmonth_discount_spm">Saving Per Month</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<label for="twentyfourmonth_discount_spy">Saving Per Year</label>
+						</div>
+					</div>
+				</div>
+				<!-- /Number of Users / Package Headers -->
+
+				<!-- 24 month discount -->
+				<div class="option grey">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							<label for="twentyfourmonth_discount">24 month discount (%)</label>
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							<input ng-click="calc.onTextClick($event)" id="twentyfourmonth_discount" class="form-control" type="text" name="twentyfourmonth_discount" ng-model="calc.twentyfourmonth_discount" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="twentyfourmonth_discount_spm">Saving Per Month</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="twentyfourmonth_discount_spm" class="form-control" type="text" name="twentyfourmonth_discount_spm" ng-model="calc.twentyfourmonth_discount_spm" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="twentyfourmonth_discount_spy">Saving Per Year</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="twentyfourmonth_discount_spy" class="form-control" type="text" name="twentyfourmonth_discount_spy" ng-model="calc.twentyfourmonth_discount_spy" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /24 month discount -->
+				
+				<!-- 3 referrals discount -->
+				<div class="option grey">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							<label for="threereferrals_discount">3 referrals discount</label>
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							<input ng-click="calc.onTextClick($event)" id="threereferrals_discount" class="form-control" type="text" name="threereferrals_discount" ng-model="calc.threereferrals_discount" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="threereferrals_discount_spm">Saving Per Month</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="threereferrals_discount_spm" class="form-control" type="text" name="threereferrals_discount_spm" ng-model="calc.threereferrals_discount_spm" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="threereferrals_discount_spy">Saving Per Year</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="threereferrals_discount_spy" class="form-control" type="text" name="threereferrals_discount_spy" ng-model="calc.threereferrals_discount_spy" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /3 referrals discount -->
+				
+				<!-- Co-founder discount -->
+				<div class="option grey">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							<label for="cofounder_discount">Co-founder discount (%)</label>
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							<input ng-click="calc.onTextClick($event)" id="cofounder_discount" class="form-control" type="text" name="cofounder_discount" ng-model="calc.cofounder_discount" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="cofounder_discount_spm">Saving Per Month</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="cofounder_discount_spm" class="form-control" type="text" name="cofounder_discount_spm" ng-model="calc.cofounder_discount_spm" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="cofounder_discount_spy">Saving Per Year</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="cofounder_discount_spy" class="form-control" type="text" name="cofounder_discount_spy" ng-model="calc.cofounder_discount_spy" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /3 referrals discount -->
+				
+				<!-- Free month(s) -->
+				<div class="option grey">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							<label for="freemonths">Free month(s)</label>
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							<input ng-click="calc.onTextClick($event)" id="freemonths" class="form-control" type="text" name="freemonths" ng-model="calc.freemonths" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							&nbsp;
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="freemonths_spy">Saving Per Year</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="freemonths_spy" class="form-control" type="text" name="freemonths_spy" ng-model="calc.freemonths_spy" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /3 referrals discount -->
+				
+				<!-- Total savings -->
+				<div class="option grey">
+					<div class="row">
+						<div class="col-xs-6 col-sm-4">
+							<label for="totalsavings">Total savings</label>
+						</div>
+						<div class="col-xs-6 col-sm-2">
+							<input ng-click="calc.onTextClick($event)" id="totalsavings" class="form-control" type="text" name="totalsavings" ng-model="calc.totalsavings" ng-change="calc.update()">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+							<label for="totalsavings_spm">Saving Per Month</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="totalsavings_spm" class="form-control" type="text" name="totalsavings_spm" ng-model="calc.totalsavings_spm" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+						<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+							<label for="totalsavings_spy">Saving Per Year</label>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<input readonly id="totalsavings_spy" class="form-control" type="text" name="totalsavings_spy" ng-model="calc.totalsavings_spy" ng-change="calc.update()" ng-currency min="0" fraction="2" currency-symbol="£">
+						</div>
+					</div>
+				</div>
+				<!-- /Total savings -->
+				
+				<div class="well">
+				
+					<!-- New Monthly Rate / New Yearly Rate Headers -->
+					<div class="option headings hidden-xs">
+						<div class="row">
+							<div class="col-sm-3 col-sm-offset-6">
+								<label for="discounted_price_nmr">New Monthly Rate</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<label for="discounted_price_nyr">New Yearly Rate</label>
+							</div>
+						</div>
+					</div>
+					<!-- /Number of Users / Package Headers -->
+					
+					<!-- Discounted Price -->
+					<div class="option">
+						<div class="row">
+							<div class="col-xs-6 col-sm-4">
+								<label for="discounted_price">Discounted Price</label>
+							</div>
+							<div class="col-xs-6 col-sm-2">
+								&nbsp;
+							</div>
+							<div class="col-xs-6 hidden-sm hidden-md hidden-lg">
+								<label for="discounted_price_nmr">New Monthly Rate</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input readonly id="discounted_price_nmr" class="form-control" type="text" name="discounted_price_nmr" ng-model="calc.discounted_price_nmr" ng-change="calc.update()" ng-currency min="0" fraction="0" currency-symbol="£">
+							</div>
+							<div class="col-xs-6 hidden-sm hidden-sm hidden-md hidden-lg">
+								<label for="discounted_price_nyr">New Yearly Rate</label>
+							</div>
+							<div class="col-xs-6 col-sm-3">
+								<input readonly id="discounted_price_nyr" class="form-control" type="text" name="discounted_price_nyr" ng-model="calc.discounted_price_nyr" ng-change="calc.update()" ng-currency min="0" fraction="0" currency-symbol="£" ng-class="{ 'minus' : calc.discounted_price_nyr < 0}">
+							</div>
+						</div>
+					</div>
+					<!-- /Total savings -->
+				
+				</div>
+				
+			</ng-form>
+		</script>
+
+	</body>
+</html>
